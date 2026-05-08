@@ -46,7 +46,6 @@ jobs:
     - name: Invoke Lambda
       run: |
         aws lambda invoke \
-          --function-name ${{ matrix.lambda }} \
           --payload '{}' response.json
         cat response.json
  
