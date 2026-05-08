@@ -1,10 +1,9 @@
-
 import os
 import requests
 import json
 
 def lambda_handler(event, context):
-    user_email = os.environ.get('SEC_EMAIL', 'default@email.com')
+    user_email = os.environ.get('SEC_EMAIL')
     cik = event.get('cik', '0000320193') 
     
     url = f"https://data.sec.gov/submissions/CIK{cik}.json"
