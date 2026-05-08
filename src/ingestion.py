@@ -37,7 +37,7 @@ def lambda_handler(event, context):
         }
         
     s3 = boto3.client('s3')
-    bucket_name = 'sec-bucket-rag'
+    bucket_name = 'config-elt-bucket'
     file_name = f"ingestion/sec_data_{cik}.json"
 
     s3.put_object(
