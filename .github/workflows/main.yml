@@ -9,7 +9,9 @@ on:
       target_cik:
         description: 'Masukkan nomor CIK (contoh: 0000320193)'
         required: false
-        default: '0000320193'      
+        default: '0000320193'   
+  schedule:
+    - cron: '0 0 * * 5'
 
 jobs:
   deploy:
