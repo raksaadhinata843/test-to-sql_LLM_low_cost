@@ -42,3 +42,11 @@ jobs:
         aws_region: us-east-1 
         function_name: lambda_ingest
         zip_file: bundle.zip
+
+    - name: Invoke Lambda
+      run: |
+        aws lambda invoke \
+          --function-name ${{ matrix.lambda }} \
+          --payload '{}' response.json
+        cat response.json
+ 
