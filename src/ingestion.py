@@ -5,7 +5,6 @@ import json
 def lambda_handler(event, context):
     user_email = os.environ.get('SEC_EMAIL')
     cik = event.get('cik', '0000320193') 
-    
     url = f"https://data.sec.gov/submissions/CIK{cik}.json"
     
     headers = {
@@ -19,7 +18,6 @@ def lambda_handler(event, context):
         response.raise_for_status()
         data = response.json()
         
-        # Contoh: Log nama perusahaan ke CloudWatch
         print(f"Ingestion sukses: {data.get('name')}")
         
         return {
@@ -37,3 +35,16 @@ def lambda_handler(event, context):
             'statusCode': 500,
             'body': json.dumps({'error': str(e)})
         }
+        
+    s3 = boto3.client('s3')
+    bucket_name = 'sec-bucket-rag'
+    file_name = f"ingestion/sec_data_{cik}.json"
+
+    s3.put_object(
+        Bucket=bucket_name,
+        Key=file_name,
+        Body=json.dumps(data),
+        ContentType='application/json'
+    )
+
+    return {"status": "success", "path": file_name}
