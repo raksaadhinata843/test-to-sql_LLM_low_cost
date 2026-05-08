@@ -1,6 +1,7 @@
 import os
 import requests
 import json
+import boto3
 
 def lambda_handler(event, context):
     user_email = os.environ.get('SEC_EMAIL')
