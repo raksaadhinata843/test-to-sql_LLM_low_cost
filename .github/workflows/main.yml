@@ -25,7 +25,8 @@ jobs:
 
     - name: Create Zip Bundle
       run: |
-        zip -r bundle.zip . -x "*.git*" ".github*"
+        cd src
+        zip -r ../bundle.zip .
 
     - name: Deploy to Lambda
       uses: appleboy/lambda-action@v0.1.9
