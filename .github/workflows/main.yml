@@ -45,9 +45,12 @@ jobs:
         function_name: lambda_ingest
         zip_file: bundle.zip
 
-    - name: Invoke Lambda
+    - name: Trigger Lambda Function
       run: |
-        aws lambda invoke \
-          --payload '{}' response.json
+        aws lambda invoke --function-name lambda_ingest --payload '{"cik": "0000320193"}' --cli-binary-format raw-in-base64-out response.json
+        echo "--- Lambda Response ---"
         cat response.json
- 
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: us-east-1
