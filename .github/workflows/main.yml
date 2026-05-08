@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      target_cik:
+        description: 'Masukkan nomor CIK (contoh: 0000320193)'
+        required: false
+        default: '0000320193'      
 
 jobs:
   deploy:
