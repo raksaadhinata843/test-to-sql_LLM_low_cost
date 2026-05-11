@@ -81,5 +81,5 @@ jobs:
           motherduck_token: ${{ secrets.MD_TOKEN }}
         run: |
           for file in src/silver.sql; do
-            ./duckdb md:my_db < "$file"
+            ./duckdb md:Sec_DB < "$file"
           done
