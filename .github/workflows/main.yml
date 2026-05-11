@@ -44,7 +44,7 @@ jobs:
 
     - name: Trigger Lambda Function
       run: |
-        aws lambda invoke --function-name lambda_ingest --payload '{"cik": "0000320193"}' --cli-binary-format raw-in-base64-out response.json
+        aws lambda invoke --function-name lambda_handler --payload '{"cik": "0000320193"}' --cli-binary-format raw-in-base64-out response.json
         echo "--- Lambda Response ---"
         cat response.json
       env:
