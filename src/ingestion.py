@@ -3,7 +3,7 @@ import requests
 import json
 import boto3
 
-def lambda_handler(event, context):
+def handler(event, context):
     user_email = os.environ.get('SEC_EMAIL')
     cik = event.get('cik', '0000320193') 
     url = f"https://data.sec.gov/submissions/CIK{cik}.json"
