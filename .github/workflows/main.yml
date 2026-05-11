@@ -14,7 +14,7 @@ on:
     - cron: '0 0 * * 5'
 
 jobs:
-  deploy:
+  bronze:
     runs-on: ubuntu-latest
 
     steps:
@@ -51,3 +51,35 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: us-east-1
+
+
+  silver:
+
+    needs: bronze
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.1"
+
+      - name: Install DuckDB CLI
+        run: |
+
+          wget https://github.com/duckdb/duckdb/releases/latest/download/duckdb_cli-linux-amd64.zip
+          unzip duckdb_cli-linux-amd64.zip
+          chmod +x ./duckdb
+
+
+      - name: Run Casting & Transform
+        env:
+          motherduck_token: ${{ secrets.MD_TOKEN }}
+        run: |
+          for file in src/silver.sql; do
+            ./duckdb md:my_db < "$file"
+          done
