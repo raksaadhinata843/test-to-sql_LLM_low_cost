@@ -20,6 +20,17 @@ def handler(event, context):
         data = response.json()
         
         print(f"Ingestion sukses: {data.get('name')}")
+
+         s3 = boto3.client('s3')
+            bucket_name = 'config-elt-bucket'
+            file_name = f"ingestion/sec_data_{cik}.json"
+
+         s3.put_object(
+            Bucket=bucket_name,
+            Key=file_name,
+            Body=json.dumps(data),
+            ContentType='application/json'
+         )
         
         return {
             'statusCode': 200,
@@ -36,16 +47,3 @@ def handler(event, context):
             'statusCode': 500,
             'body': json.dumps({'error': str(e)})
         }
-        
-    s3 = boto3.client('s3')
-    bucket_name = 'config-elt-bucket'
-    file_name = f"ingestion/sec_data_{cik}.json"
-
-    s3.put_object(
-        Bucket=bucket_name,
-        Key=file_name,
-        Body=json.dumps(data),
-        ContentType='application/json'
-    )
-
-    return {"status": "success", "path": file_name}
