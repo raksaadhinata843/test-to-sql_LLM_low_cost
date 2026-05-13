@@ -1,6 +1,6 @@
 import duckdb
 import os
-import google.generativeai as genai # Atau pakai OpenAI
+from google import genai
 
 def text_to_sql_chat():
     # 1. Koneksi ke MotherDuck
