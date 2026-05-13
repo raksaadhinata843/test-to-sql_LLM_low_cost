@@ -75,7 +75,6 @@ jobs:
           unzip duckdb_cli-linux-amd64.zip
           chmod +x ./duckdb
 
-
       - name: Run Casting & Transform
         env:
           motherduck_token: ${{ secrets.MD_TOKEN }}
@@ -99,6 +98,10 @@ jobs:
         with:
           python-version: "3.14"
 
+      - name: Install Dependencies
+        run: |
+         pip install duckdb google-genai
+
       - name: Install DuckDB CLI
         run: |
 
@@ -106,11 +109,18 @@ jobs:
           unzip duckdb_cli-linux-amd64.zip
           chmod +x ./duckdb
 
-
       - name: Run Translator
         env:
           motherduck_token: ${{ secrets.MD_TOKEN }}
         run: |
+          
           for file in src/gold.sql; do
             ./duckdb md:Sec_DB < "$file"
           done
+          
+      - name: Run AI Insight Generator (The AI Engineer Part)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          MD_TOKEN: ${{ secrets.MD_TOKEN }}
+        run: |
+          python connection/connection-ai.py
