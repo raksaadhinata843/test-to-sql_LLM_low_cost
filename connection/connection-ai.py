@@ -12,7 +12,7 @@ def text_to_sql_chat():
     
     # 3. Setup LLM
     genai.configure(api_key=os.environ["GEMINI_API_KEY"])
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    model = genai.GenerativeModel('gemini-2.0-flash')
 
     user_question = "Ada berapa banyak perusahaan yang terdaftar di exchange NASDAQ?"
 
