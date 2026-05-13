@@ -30,7 +30,7 @@ def text_to_sql_chat():
     
     # List model cadangan (Fallback chain)
     # Jika 2.0-flash limit, dia akan coba 1.5-flash
-    model_pool = ["gemini-2.0-flash", "gemini-1.5-flash-002"]
+    model_pool = ["gemini-2.0-flash", "gemini-1.5-flash-002", "gemini-2.5-flash"]
     
     user_question = "Ada berapa banyak perusahaan yang terdaftar di exchange NASDAQ?"
     prompt = f"""Write a DuckDB SQL query for table 'silver_company_profiles' with columns {column_list}.
