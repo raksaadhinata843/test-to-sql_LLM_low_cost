@@ -11,8 +11,8 @@ def text_to_sql_chat():
     schema_info = con.execute("DESCRIBE silver_company_profiles").fetchall()
     
     # 3. Setup LLM
-    genai.configure(api_key=os.environ["GEMINI_API_KEY"])
-    model = genai.GenerativeModel('gemini-2.0-flash')
+    client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+    model_id = "gemini-2.0-flash"
 
     user_question = "Ada berapa banyak perusahaan yang terdaftar di exchange NASDAQ?"
 
