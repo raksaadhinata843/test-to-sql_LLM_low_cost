@@ -28,7 +28,7 @@ def text_to_sql_chat():
 
     # 5. LLM Generate SQL
     response = client.models.generate_content(
-        model=model_id
+        model=model_id,
         contents=prompt
     )
     sql_query = response.text.strip()
