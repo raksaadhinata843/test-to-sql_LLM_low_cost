@@ -121,6 +121,6 @@ jobs:
       - name: Run AI Insight Generator (The AI Engineer Part)
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          MD_TOKEN: ${{ secrets.MD_TOKEN }}
+          motherduck_token: ${{ secrets.MD_TOKEN }}
         run: |
           python connection/connection-ai.py
