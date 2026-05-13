@@ -1,4 +1,4 @@
-CREATE OR REPLACE TABLE AS
+CREATE OR REPLACE TABLE gold_company_profiles AS
 SELECT
 company_name AS perusahaan,
 primary_ticker AS kode_saham,
