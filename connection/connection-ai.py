@@ -23,6 +23,10 @@ def text_to_sql_chat():
     
     # 3. Setup LLM
     client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+
+    print("Mengecek daftar model yang tersedia...")
+    for m in client.models.list():
+        print(f"ID Model Tersedia: {m.name}")
     
     # List model cadangan (Fallback chain)
     # Jika 2.0-flash limit, dia akan coba 1.5-flash
