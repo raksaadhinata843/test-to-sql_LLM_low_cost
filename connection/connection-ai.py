@@ -27,7 +27,11 @@ def text_to_sql_chat():
     """
 
     # 5. LLM Generate SQL
-    sql_query = model.generate_content(prompt).text.strip()
+    response = client.models.generate_content(
+        model=model_id
+        contents=prompt
+    )
+    sql_query = response.text.strip()
     print(f"Generated SQL: {sql_query}")
 
     # 6. Jalankan di MotherDuck
