@@ -18,7 +18,7 @@ def handler(event, context):
         time.sleep(0.1)
     
     headers = {
-        'User-Agent': f'MyDataProject ({user_email})',
+        'User-Agent': f'RaksaProject ({user_email})',
         'Accept-Encoding': 'gzip, deflate',
         'Host': 'data.sec.gov'
     }
