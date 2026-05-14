@@ -2,11 +2,20 @@ import os
 import requests
 import json
 import boto3
+import time
+
+def get_all_ciks():
+    ticker_url = "[https://www.sec.gov/files/company_tickers.json](https://www.sec.gov/files/company_tickers.json)"
 
 def handler(event, context):
     user_email = os.environ.get('SEC_EMAIL')
-    cik_padded = str(cik).zfill(10) 
-    url = f"https://data.sec.gov/api/xbrl/companyfacts/CIK{cik_padded}.json"
+    ciks = get_all_ciks()
+
+    target_ciks = ciks[:30]
+
+    for cik in target_ciks:
+        fetch_and_save_to_s3(cik)
+        time.sleep(0.1)
     
     headers = {
         'User-Agent': f'MyDataProject ({user_email})',
@@ -15,7 +24,7 @@ def handler(event, context):
     }
 
     try:
-        response = requests.get(url, headers=headers)
+        response = requests.get(ticker_url, headers=headers)
         response.raise_for_status()
         data = response.json()
         
