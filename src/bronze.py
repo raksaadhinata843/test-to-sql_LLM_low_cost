@@ -11,7 +11,7 @@ def handler(event, context):
     user_email = os.environ.get('SEC_EMAIL')
     ciks = get_all_ciks()
 
-    target_ciks = ciks[:30]
+    target_ciks = ciks[:10]
 
     for cik in target_ciks:
         fetch_and_save_to_s3(cik)
