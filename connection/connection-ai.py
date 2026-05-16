@@ -29,7 +29,7 @@ def text_to_sql_chat():
         print(f"ID Model Tersedia: {m.name}")
     
     # List model cadangan (Fallback chain)
-    model_pool = ["gemini-2.0-flash", "gemini-1.5-flash", "gemini-2.5-flash"]
+    model_pool = ["gemini-2.5-flash", "gemini-2.5-flash-lite", "gemini-1.5-flash"]
     
     user_question = "Ada berapa banyak perusahaan yang terdaftar di exchange NASDAQ?"
     prompt = f"""Write a DuckDB SQL query for table 'silver_company_profiles' with columns {column_list}.
@@ -45,17 +45,21 @@ def text_to_sql_chat():
             if sql_query:
                 print(f"Berhasil menggunakan {model_id}")
                 break
-        except errors.ClientError as e:
-            if "429" in str(e):
-                print(f"Model {model_id} kena Rate Limit (429).")
-                if model_id != model_pool[-1]:
-                    print("Beralih ke model cadangan...")
-                    continue # Coba model berikutnya di list
-                else:
-                    print("Semua model Gemini sibuk. Menunggu 60 detik sebelum menyerah...")
-                    time.sleep(60)
+        except errors.APIError as e:
+            if e.code == 429:
+                print(f"-> Model {model_id} kena Rate Limit (429).")
+            elif e.code == 404:
+                print(f"-> Model {model_id} Gak Ditemukan / Salah Nama (404).")
             else:
-                print(f"Error tidak terduga pada {model_id}: {e}")
+                print(f"-> API Error Lain ({e.code}) pada {model_id}: {e.message}")            
+            if model_id != model_pool[-1]:
+                print("Beralih ke model cadangan...")
+                continue # Coba model berikutnya di list
+            else:
+                print("Semua model Gemini sibuk. Menunggu 60 detik sebelum menyerah...")
+                time.sleep(60)
+        except Exception as e:
+                print(f"-> Error Non-API pada {model_id}: {e}")
                 break
 
     # 5. Jalankan di MotherDuck jika query berhasil didapat
