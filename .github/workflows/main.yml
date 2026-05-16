@@ -47,9 +47,9 @@ jobs:
         INPUT_CIK="${{ github.event.inputs.target_cik }}"
         
         if [ -z "$INPUT_CIK" ]; then
-          PAYLOAD='{}'
+          echo "{}" > payload.json
         else
-          PAYLOAD="{\"cik\": \"$INPUT_CIK\"}"
+          echo "{\"cik\": \"$INPUT_CIK\"}" > payload.json
         fi
 
         echo "Mengirim payload valid ke AWS: $PAYLOAD"
