@@ -44,7 +44,7 @@ jobs:
 
     - name: Trigger Lambda Function
       run: |
-        aws lambda invoke --function-name lambda_ingest --payload '{"cik": "target_cik"}' --cli-binary-format raw-in-base64-out response.json
+        aws lambda invoke --function-name lambda_ingest --payload '{"cik": ${{ github.event.inputs.target_cik }}}' --cli-binary-format raw-in-base64-out response.json
         echo "--- Lambda Response ---"
         cat response.json
       env:
@@ -79,9 +79,7 @@ jobs:
         env:
           motherduck_token: ${{ secrets.MD_TOKEN }}
         run: |
-          for file in src/silver.sql; do
-            ./duckdb md:Sec_DB < "$file"
-          done
+         ./duckdb md:Sec_DB < src/silver.sql
 
   gold:
 
@@ -113,10 +111,7 @@ jobs:
         env:
           motherduck_token: ${{ secrets.MD_TOKEN }}
         run: |
-          
-          for file in src/gold.sql; do
-            ./duckdb md:Sec_DB < "$file"
-          done
+          ./duckdb md:Sec_DB < src/gold.sql
           
       - name: Run AI Insight Generator (The AI Engineer Part)
         env:
