@@ -44,6 +44,16 @@ jobs:
 
     - name: Trigger Lambda Function
       run: |
+        INPUT_CIK="${{ github.event.inputs.target_cik }}"
+        
+        if [ -z "$INPUT_CIK" ]; then
+          PAYLOAD='{}'
+        else
+          PAYLOAD="{\"cik\": \"$INPUT_CIK\"}"
+        fi
+
+        echo "Mengirim payload valid ke AWS: $PAYLOAD"
+        
         aws lambda invoke --function-name lambda_ingest --payload '{"cik": ${{ github.event.inputs.target_cik }}}' --cli-binary-format raw-in-base64-out response.json
         echo "--- Lambda Response ---"
         cat response.json
