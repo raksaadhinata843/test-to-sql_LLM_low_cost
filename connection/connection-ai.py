@@ -29,7 +29,7 @@ def text_to_sql_chat():
         print(f"ID Model Tersedia: {m.name}")
     
     # List model cadangan (Fallback chain)
-    model_pool = ["gemini-2.0-flash", "gemini-1.5-flash-002", "gemini-2.5-flash"]
+    model_pool = ["gemini-2.0-flash", "gemini-1.5-flash", "gemini-2.5-flash"]
     
     user_question = "Ada berapa banyak perusahaan yang terdaftar di exchange NASDAQ?"
     prompt = f"""Write a DuckDB SQL query for table 'silver_company_profiles' with columns {column_list}.
